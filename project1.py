@@ -9,6 +9,10 @@ noOfGens = 0
 newJuv = 0 
 newAdults = 0
 newSen = 0
+juvenile = 0
+adult = 0
+senile = 0
+total = 0
 
 
 def firstGenVals():
@@ -19,23 +23,29 @@ def firstGenVals():
     global survivalAdults     
     global survivalSen       
     global birthRate         
-    global noOfGens          
+    global noOfGens  
+    global juvenile 
+    global adult
+    global senile        
 
     print("ALL THE VALUES ARE IN THOUSANDS")
 
     firstJuv = float(input("Starting number of juveniles?\n")) # This is setting the starting number of juveniles
+    juvenile = firstJuv
     survivalJuv = float(input("Juvenile survival rate? (Between 0 and 1)\n")) # This is setting the survival rate for juveniles
     while survivalJuv < 0 or survivalJuv > 1: # This loop is making sure that the survival rate is between 0 and 1 
         print("Invalid survival rate")
         survivalJuv = float(input("Juvenile survival rate? (Between 0 and 1)\n"))
 
     firstAdults = float(input("Starting number of adults?\n")) # This is setting the starting number of adults
+    adult = firstAdults
     survivalAdults = float(input("Adults survival rate? (Between 0 and 1)\n")) # This is setting the survival rate for adults
     while survivalAdults < 0 or survivalAdults > 1:
         print("Invalid survival rate")
         survivalAdults = float(input("Adults survival rate? (Between 0 and 1)\n"))
 
     firstSen = float(input("Starting number of Seniles?\n")) # This is setting the starting number of seniles
+    senile = firstSen
     survivalSen = float(input("Seniles survival rate? (Between 0 and 1)\n")) # This is setting the survival rate for adults
     while survivalSen < 0 or survivalSen > 1:
         print("Invalid survival rate")
@@ -52,14 +62,42 @@ def firstGenVals():
 
 def firstGenValShow(): # This subprogram is printing all the values that were put in
     print("There are", firstJuv, "juveniles" )
-    print("The juvenile Survival rate is", firstJuv)
+    print("The juvenile Survival rate is", survivalJuv)
     print("There are", firstAdults, "adults")
-    print("The adults Survival rate is", firstAdults)
+    print("The adults Survival rate is", survivalAdults)
     print("There are", firstSen, "seniles")
-    print("The senile Survival rate is", firstSen)
+    print("The senile Survival rate is", survivalSen)
     print("The birthRate is", birthRate)
     print("The number of generations is", noOfGens)
     
+    menu()
+
+def runSim(): # This runs the simulation 
+    global firstJuv          
+    global survivalJuv       
+    global survivalAdults     
+    global survivalSen       
+    global birthRate         
+    global noOfGens
+    global newJuv
+    global newAdults
+    global newSen
+    global juvenile 
+    global adult
+    global senile
+    global total
+
+    for i in range(noOfGens):
+        newJuv = adult * birthRate
+        newAdults = juvenile * survivalJuv
+        newSen = (senile * survivalSen) + (adult * survivalAdults)
+        total = newJuv + newAdults + newSen
+
+        juvenile = newJuv
+        adult = newAdults
+        senile = newSen
+
+    print(total)
     menu()
     
 def menu(): # This subprogram is the menu where the program starts and returns to after a subprogram is done
@@ -83,7 +121,7 @@ def menu(): # This subprogram is the menu where the program starts and returns t
     elif choiceSelect == 2:
         firstGenValShow() # this will print a table with the values for gen 0
     elif choiceSelect == 3:
-        print("3") # this will run the simulation
+        runSim() # this will run the simulation
     elif choiceSelect == 4:
         print("4") # this will save the results of the simulation into a txt file
     elif choiceSelect == 5:
