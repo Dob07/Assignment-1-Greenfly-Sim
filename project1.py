@@ -1,3 +1,5 @@
+import time
+
 firstJuv = 0
 firstAdults = 0
 firstSen = 0
@@ -69,7 +71,7 @@ def firstGenValShow(): # This subprogram is printing all the values that were pu
     print("The senile Survival rate is", survivalSen)
     print("The birthRate is", birthRate)
     print("The number of generations is", noOfGens)
-    
+    time.sleep(2)
     menu()
 
 def runSim(): # This runs the simulation 
@@ -87,7 +89,19 @@ def runSim(): # This runs the simulation
     global senile
     global total
 
+    gencheck = 0
+
+    total = juvenile + adult + senile
+
+    values = [["GENERATION"], ["JUVENILES"], ["ADULTS"], ["SENILES"], ["TOTAL"]]
+
     for i in range(noOfGens):
+        values[0][i+1].append(gencheck)
+        values[1][i+1].append(juvenile)
+        values[2][i+1].append(adult)
+        values[3][i+1].append(senile)
+        values[4][i+1].append(total)
+
         newJuv = adult * birthRate
         newAdults = juvenile * survivalJuv
         newSen = (senile * survivalSen) + (adult * survivalAdults)
