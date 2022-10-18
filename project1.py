@@ -89,29 +89,53 @@ def runSim(): # This runs the simulation
     global senile
     global total
 
+    noOfGens = noOfGens + 1
+
     gencheck = 0
 
     total = juvenile + adult + senile
 
-    values = [["GENERATION"], ["JUVENILES"], ["ADULTS"], ["SENILES"], ["TOTAL"]]
-
+    genArray = []
+    juvArray = []
+    adArray = []
+    senArray = []
+    totalArray = []
     for i in range(noOfGens):
-        values[0][i+1].append(gencheck)
-        values[1][i+1].append(juvenile)
-        values[2][i+1].append(adult)
-        values[3][i+1].append(senile)
-        values[4][i+1].append(total)
+        genArray.append(gencheck)
+        juvArray.append(juvenile)
+        adArray.append(adult)
+        senArray.append(senile)
+        totalArray.append(total)
 
         newJuv = adult * birthRate
+        newJuv = round(newJuv, 2)
+
         newAdults = juvenile * survivalJuv
+        newAdults = round(newAdults, 2)
+
         newSen = (senile * survivalSen) + (adult * survivalAdults)
+        newSen = round(newSen, 2)
+
         total = newJuv + newAdults + newSen
 
         juvenile = newJuv
         adult = newAdults
         senile = newSen
 
-    print(total)
+        gencheck = gencheck + 1
+    genJuvGap = ""
+    for i in range(11):
+        genJuvGap = genJuvGap + " "
+    genJuvGap = genJuvGap - len(gencheck)
+    print("GENERATION   JUVENILES   ADULTS   SENILES   TOTAL")
+    for i in range(noOfGens):
+        print("  ", genArray[i], genJuvGap, juvArray[i], adArray[i], senArray[i], totalArray[i])
+
+    #print("GENERATION", genArray)
+    #print("JUVENILES ", juvArray)
+    #print("ADULTS    ", adArray)
+    #print("SENILES   ", senArray)
+    #print("TOTAL     ", totalArray) 
     menu()
     
 def menu(): # This subprogram is the menu where the program starts and returns to after a subprogram is done
