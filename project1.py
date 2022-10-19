@@ -3,6 +3,7 @@ import math
 import os
 import numpy
 from sympy import fu 
+import random
 
 firstJuv = 0
 firstAdults = 0
@@ -75,6 +76,8 @@ def firstGenVals():
     while noOfGens < 5 or noOfGens > 25: # This loop is making sure the number of generations is between 5 and 25
         print("Invalid generation range")
         noOfGens = int(input("How many generations?\n"))
+
+    diseaseTrigger = input("What should the population disease trigger point be? ")
 
     menu() # return to menu
 
@@ -191,6 +194,7 @@ def export(): # The export to file function
         overrideQ = input("Do you want to override it? ") # Asks if they want to override the pre-existing file
         while overrideQ.lower() == "no" or overrideQ.lower() == "n": # If they dont
             exportedFile = input("What is the name of the new file? ") # Name the new file
+            exportedFile = exportedFile + ".csv"
             f = open(exportedFile, "w")
             f.write("GENERATION   JUVENILES   ADULTS   SENILES   TOTAL")
             f.write("\n")
@@ -200,6 +204,7 @@ def export(): # The export to file function
             f.close()
             break
         if overrideQ.lower() == "yes" or overrideQ.lower() == "y": # If they want to override the pre-existing file then the exact same happens except naming the new file
+            exportedFile = exportedFile + ".csv"
             f=open(exportedFile,"w")               
             f.write("GENERATION   JUVENILES   ADULTS   SENILES   TOTAL")
             f.write("\n")
@@ -208,6 +213,7 @@ def export(): # The export to file function
                 f.write("\n")
             f.close()
     else: # If the file is a new name then run as normal
+        exportedFile = exportedFile + ".csv"
         f=open(exportedFile,"w")               
         f.write("GENERATION   JUVENILES   ADULTS   SENILES   TOTAL")
         f.write("\n")
