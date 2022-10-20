@@ -26,6 +26,7 @@ juvArray = []
 adArray = []
 senArray = []
 totalArray = []
+titleArray = ["GENERATION   ","JUVENILES   ","ADULTS   ","SENILES   ","TOTAL"]
 
 genJuv = "       "
 juvAd = ""
@@ -117,6 +118,7 @@ def runSim(): # This runs the simulation
     global adSen 
     global senTot
     global fullArray
+    global titleArray
 
     noOfGens = noOfGens + 1
     gencheck = 0
@@ -186,17 +188,18 @@ def runSim(): # This runs the simulation
 def export(): # The export to file function
     global fullArray
     global noOfGens
+    global titleArray
     ord = fullArray 
 
     exportedFile = input("What is the name of the file? ") # Asks for the name of the file
-    if os.path.exists(exportedFile): # If the files name already exists then
+    if os.path.exists(exportedFile + ".csv"): # If the files name already exists then
         print("This file already exists")
         overrideQ = input("Do you want to override it? ") # Asks if they want to override the pre-existing file
         while overrideQ.lower() == "no" or overrideQ.lower() == "n": # If they dont
             exportedFile = input("What is the name of the new file? ") # Name the new file
             exportedFile = exportedFile + ".csv"
             f = open(exportedFile, "w")
-            f.write("GENERATION   JUVENILES   ADULTS   SENILES   TOTAL")
+            f.write(str(titleArray))
             f.write("\n")
             for i in range(noOfGens): # Goes down the array 1 by 1 and makes it look like a table
                 f.write(str(ord[i]))
@@ -206,7 +209,7 @@ def export(): # The export to file function
         if overrideQ.lower() == "yes" or overrideQ.lower() == "y": # If they want to override the pre-existing file then the exact same happens except naming the new file
             exportedFile = exportedFile + ".csv"
             f=open(exportedFile,"w")               
-            f.write("GENERATION   JUVENILES   ADULTS   SENILES   TOTAL")
+            f.write(str(titleArray))
             f.write("\n")
             for i in range(noOfGens):
                 f.write(str(ord[i]))
@@ -215,7 +218,7 @@ def export(): # The export to file function
     else: # If the file is a new name then run as normal
         exportedFile = exportedFile + ".csv"
         f=open(exportedFile,"w")               
-        f.write("GENERATION   JUVENILES   ADULTS   SENILES   TOTAL")
+        f.write(str(titleArray))
         f.write("\n")
         for i in range(noOfGens):
             f.write(str(ord[i]))
