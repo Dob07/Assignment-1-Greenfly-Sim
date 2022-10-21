@@ -1,9 +1,11 @@
 import time
 import math
 import os
+from matplotlib.pyplot import title
 import numpy
 from sympy import fu 
 import random
+import csv
 
 firstJuv = 0
 firstAdults = 0
@@ -26,7 +28,8 @@ juvArray = []
 adArray = []
 senArray = []
 totalArray = []
-titleArray = ["GENERATION   ","JUVENILES   ","ADULTS   ","SENILES   ","TOTAL"]
+titleArray = ['GENERATION', 'JUVENILES', 'ADULTS', 'SENILES', 'TOTAL']
+
 
 genJuv = "       "
 juvAd = ""
@@ -199,29 +202,29 @@ def export(): # The export to file function
             exportedFile = input("What is the name of the new file? ") # Name the new file
             exportedFile = exportedFile + ".csv"
             f = open(exportedFile, "w")
-            f.write(str(titleArray))
+            f.write(str(titleArray)[1:-1])
             f.write("\n")
             for i in range(noOfGens): # Goes down the array 1 by 1 and makes it look like a table
-                f.write(str(ord[i]))
+                f.write(str(ord[i])[1:-1])
                 f.write("\n") 
             f.close()
             break
         if overrideQ.lower() == "yes" or overrideQ.lower() == "y": # If they want to override the pre-existing file then the exact same happens except naming the new file
             exportedFile = exportedFile + ".csv"
             f=open(exportedFile,"w")               
-            f.write(str(titleArray))
+            f.write(str(titleArray)[1:-1])
             f.write("\n")
             for i in range(noOfGens):
-                f.write(str(ord[i]))
+                f.write(str(ord[i])[1:-1])
                 f.write("\n")
             f.close()
     else: # If the file is a new name then run as normal
         exportedFile = exportedFile + ".csv"
         f=open(exportedFile,"w")               
-        f.write(str(titleArray))
+        f.write(str(titleArray)[1:-1])
         f.write("\n")
         for i in range(noOfGens):
-            f.write(str(ord[i]))
+            f.write(str(ord[i])[1:-1])
             f.write("\n")
         f.close()
     menu()
