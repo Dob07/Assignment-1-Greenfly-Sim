@@ -1,11 +1,11 @@
-import time
+import csv
 import math
 import os
-from matplotlib.pyplot import title
-import numpy
-from sympy import fu 
 import random
-import csv
+import time
+
+import numpy
+from sympy import fu
 
 firstJuv = 0
 firstAdults = 0
@@ -22,12 +22,15 @@ juvenile = 0
 adult = 0
 senile = 0
 total = 0
+diseaseTrigger = 0
+diseaseDeathCount = 0
 
 genArray = []
 juvArray = []
 adArray = []
 senArray = []
 totalArray = []
+disArray = []
 titleArray = ['GENERATION', 'JUVENILES', 'ADULTS', 'SENILES', 'TOTAL']
 
 
@@ -49,7 +52,8 @@ def firstGenVals():
     global noOfGens  
     global juvenile 
     global adult
-    global senile        
+    global senile   
+    global diseaseTrigger     
 
     print("ALL THE VALUES ARE IN THOUSANDS")
 
@@ -98,34 +102,16 @@ def firstGenValShow(): # This subprogram is printing all the values that were pu
     menu()
 
 def runSim(): # This runs the simulation 
-    global firstJuv          # Declare variables
-    global survivalJuv       
-    global survivalAdults     
-    global survivalSen       
-    global birthRate         
-    global noOfGens
-    global newJuv
-    global newAdults
-    global newSen
-    global juvenile 
-    global adult
-    global senile
-    global total
-    global genArray
-    global juvArray 
-    global adArray 
-    global senArray 
-    global totalArray 
-    global genJuv 
-    global juvAd 
-    global adSen 
-    global senTot
-    global fullArray
-    global titleArray
-
+    global firstJuv, firstAdults, firstSen, survivalJuv, survivalAdults, survivalSen, birthRate, noOfGens, juvenile, adult, senile, diseaseTrigger, total, genArray, juvArray, adArray, senArray, totalArray, disArray, genJuv, juvAd, adSen, senTot, totDis, fullArray, jj, aa, ss, diseaseDeathCount
     noOfGens = noOfGens + 1
     gencheck = 0
     total = juvenile + adult + senile
+
+    flDis = float(diseaseTrigger)
+
+    newJuv = 0
+    newAdults = 0
+    newSen = 0
 
     for i in range(noOfGens): # This will run for the amount of generations that there are
         genArray.append(gencheck) # These append the values from 
@@ -133,20 +119,47 @@ def runSim(): # This runs the simulation
         adArray.append(adult)     # array depending on its type
         senArray.append(senile)
         totalArray.append(total)
+        disArray.append(diseaseDeathCount)
         tArr = [gencheck, juvenile, adult, senile, total] # This is an array for the file save
         fullArray.append(tArr) # This sends the tArr to the main array for the file save
 
-        newJuv = adult * birthRate # This works out the new juveniles
-        newJuv = round(newJuv, 2) # This rounds it to 2 dp.
+        diseaseDeathCount = 0
 
-        newAdults = juvenile * survivalJuv # This works out the new adults
-        newAdults = round(newAdults, 2) 
+        if total >= flDis:
+            deathPercent = random.randint(20,50)
+            deathPercent = float(deathPercent)
+            deathPercent = deathPercent / 100
 
-        newSen = (senile * survivalSen) + (adult * survivalAdults) # This works out the new seniles
-        newSen = round(newSen, 2)
+            jj = newJuv * deathPercent 
+            newJuv = newJuv - jj
+            newJuv = round(newJuv, 2) # This rounds it to 2 dp.
 
-        total = newJuv + newAdults + newSen # This works out the total
-        total = round(total, 2)
+            aa = newAdults * deathPercent
+            newAdults = newAdults - aa
+            newAdults = round(newAdults, 2) 
+
+            ss = newAdults * deathPercent
+            newSen = newSen - ss
+            newSen = round(newSen, 2)
+
+            total = newJuv + newAdults + newSen # This works out the total
+            total = round(total, 2)
+
+            diseaseDeathCount = jj + aa + ss
+            diseaseDeathCount = round(diseaseDeathCount, 2)
+
+        else:
+            newJuv = adult * birthRate # This works out the new juveniles
+            newJuv = round(newJuv, 2) # This rounds it to 2 dp.
+
+            newAdults = juvenile * survivalJuv # This works out the new adults
+            newAdults = round(newAdults, 2) 
+
+            newSen = (senile * survivalSen) + (adult * survivalAdults) # This works out the new seniles
+            newSen = round(newSen, 2)
+
+            total = newJuv + newAdults + newSen # This works out the total
+            total = round(total, 2)
 
         juvenile = newJuv # These set the new values as the old value and allow it to repeat
         adult = newAdults
